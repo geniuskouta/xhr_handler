@@ -12,6 +12,7 @@
         * - Adding the true returns the result as an array and not an stdClass
         */
         $data = file_get_contents('php://input');
+        sleep(1);
         echo createPost(json_decode($data, true));
         return ;
     }

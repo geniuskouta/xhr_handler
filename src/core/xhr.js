@@ -1,28 +1,40 @@
-export const sendHttpRequest = (method, url, data) => {
-    const promise = new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        
-        xhr.open(method, url);
+/* initialize only once so that we can keep track of a pending request */
+const xhr = new XMLHttpRequest();
 
-        xhr.responseType = 'json';
+export const sendHttpRequest = (method, url, data, successCb, errorCb) => {
+    if(xhr && xhr.readyState != 4){
+        /* aborts the previous request if it is still pending */
+        xhr.abort();
+    }
 
-        if (data) {
-            xhr.setRequestHeader('Content-Type', 'application/json');
+    /* initializes a newly-created request, or re-initializes an existing one */
+    xhr.open(method, url);
+
+    xhr.responseType = 'json';
+    if (data) {
+        xhr.setRequestHeader('Content-Type', 'application/json');
+    }
+
+    xhr.send(JSON.stringify(data));
+
+    /* event that fires when xhr request completes */
+    xhr.onload = () => {
+        if(xhr.status >= 400) {
+            errorCb && errorCb(xhr.response);
+            return xhr.response;
+        } else {
+            successCb && successCb(xhr.response);
+            return xhr.response;
         }
+    }
 
-        xhr.onload = () => {
-            if(xhr.status >= 400) {
-                reject(xhr.response);
-            } else {
-                resolve(xhr.response);
-            }
-        }
+    /* event that fires when xhr request aborts */
+    xhr.onabort = () => {
+        console.log('Request aborted!');
+    }
 
-        xhr.onerror = () => {
-            return reject('There was something wrong!');
-        }
-
-        xhr.send(JSON.stringify(data));
-    });
-    return promise;
+    /* event that fires when xhr request ends with an error */
+    xhr.onerror = () => {
+        errorCb && errorCb();
+    }
 }

@@ -7,14 +7,49 @@
     <title>Xhr Request Test</title>
 </head>
 <body>
+    <buton post-request>Post request</buton>
     <script src="../dist/index.js"></script>
+
     <script>
-        // xhrHandler.getRequest('./api/posts.php');
-        var new_post = {
-            id: '3',
-            body: 'new post'
-        };
-        xhrHandler.postRequest('./api/test.php', new_post);
+        setTimeout(function() {
+            fetchPosts();
+        }, 300); 
+
+        function fetchPosts() {
+            xhrHandler.getRequest('./api/posts.php', successCb, errorCb);
+
+            function successCb(response) {
+                console.log(response);
+            }
+
+            function errorCb(response) {
+                console.log(response);
+            }
+        }
+    </script>
+
+
+    <script>
+        var postButton = document.querySelector('[post-request]');
+        postButton.addEventListener('click', function() {
+            var new_post = {
+                id: '3',
+                body: 'new post'
+            };
+            createPost(new_post);    
+        });
+
+        function createPost(data) {
+            xhrHandler.postRequest('./api/posts.php', data, successCb, errorCb);
+
+            function successCb(response) {
+                console.log(response);
+            }
+
+            function errorCb(response) {
+                console.log(response);
+            }
+        }
     </script>
 </body>
 </html>

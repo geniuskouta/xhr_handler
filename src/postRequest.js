@@ -1,12 +1,13 @@
 import { sendHttpRequest } from "./core/xhr";
 
-const postRequest = (url, data) => {
-    sendHttpRequest('POST', url, data).then(responseData => {
-        console.log(responseData);
-        return responseData;
-    }).catch(err => {
-        console.log(err);
-    });
+const postRequest = (url, data, successCb, errorCb) => {
+    sendHttpRequest(
+        'POST',
+        url,
+        data,
+        successCb && successCb,
+        errorCb && errorCb
+    );
 }
 
 export default postRequest;

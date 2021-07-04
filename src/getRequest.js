@@ -1,12 +1,7 @@
 import { sendHttpRequest } from "./core/xhr";
 
-const getRequest = (url) => {
-    sendHttpRequest('GET', url).then(responseData => {
-        console.log(responseData);
-        return responseData;
-    }).catch(err => {
-        console.log(err);
-    });
+const getRequest = (url, successCb, errorCb) => {
+    sendHttpRequest('GET', url, successCb && successCb, errorCb && errorCb);
 }
 
 export default getRequest;

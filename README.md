@@ -1,2 +1,2 @@
 # xhr handler
-- handles xhr requests manually
+- handles xhr requests without promise
