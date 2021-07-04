@@ -6,7 +6,6 @@ export const sendHttpRequest = (method, url, data, successCb, errorCb) => {
         for more details about xhr.readyState:
         https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
     */ 
-   console.log(xhr.readyState);
     if(xhr.readyState === 1) {
         xhr.abort();
         return ;
