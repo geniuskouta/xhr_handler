@@ -49,8 +49,8 @@
                     'body' => 'boku wa kowai yo',
                 ),
                 array(
-                    'id' => 3,
-                    'body' => 'ok sir'
+                    'id' => $data['id'],
+                    'body' => $data['body']
                 ),
             ];
     
@@ -59,7 +59,6 @@
         
         return json_encode([
             'errorMessage' => 'Something went wrong!',
-            'data' => $_POST
         ]);
     }
 
