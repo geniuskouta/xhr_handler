@@ -2,9 +2,20 @@
 const xhr = new XMLHttpRequest();
 
 export const sendHttpRequest = (method, url, data, successCb, errorCb) => {
-    if(xhr && xhr.readyState != 4){
-        /* aborts the previous request if it is still pending */
+    /*
+        for more details about xhr.readyState:
+        https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
+    */ 
+   console.log(xhr.readyState);
+    if(xhr.readyState === 1) {
         xhr.abort();
+        return ;
+    }
+
+    if(xhr.readyState > 0 && xhr.readyState < 4){
+        /* after data is sent to the server */
+        console.log('Current request aborted!');
+        return ;
     }
 
     /* initializes a newly-created request, or re-initializes an existing one */
@@ -30,7 +41,7 @@ export const sendHttpRequest = (method, url, data, successCb, errorCb) => {
 
     /* event that fires when xhr request aborts */
     xhr.onabort = () => {
-        console.log('Request aborted!');
+        console.log('Previous request aborted!');
     }
 
     /* event that fires when xhr request ends with an error */
